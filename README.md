@@ -110,4 +110,66 @@ Both pipelines can be reproduced by running:
 python scripts/run_extraction.py
 python scripts/run_topic_modeling.py
 
+---
+
+## 🧾 Curation Schema (Fields and Why They Matter)
+
+### 🧬 1. `extracted_entities_full.csv`
+This file contains one row per processed sentence with extracted entities and contextual information.
+
+| Field | Type | Example | Why It Matters |
+|---|---|---|---|
+| `text_id` | `int` | `12` | Unique identifier for cross-referencing. |
+| `text` | `str` | `"The APOE ε4 allele increases the risk of Alzheimer’s disease."` | Keeps original context for verification. |
+| `gene` | `str` | `APOE` | Links extracted variants to genetic markers. |
+| `variant` | `str` | `rs429358` | Enables variant-level analysis. |
+| `disease` | `str` | `Alzheimer’s disease` | Connects genomics to phenotype. |
+| `relation_context` | `str` | `"APOE ε4 increases the risk of AD"` | Captures phrasing for curator review. |
+
+---
+
+### 🍀 2. `curated_results.json`
+Structured triples for downstream processing or knowledge-graph ingestion.
+
+**Example:**
+```json
+{
+  "relation_id": 5,
+  "gene": "APOE",
+  "variant": ["rs429358", "rs7412"],
+  "disease": "Alzheimer’s disease",
+  "relation_type": "gene–disease association",
+  "source_text": "Variants rs429358 and rs7412 define APOE isoforms associated with AD."
+}
+| Field | Type | Why It Matters |
+|--------|------|----------------|
+| `relation_id` | `int` | Stable handle to deduplicate/link relations. |
+| `gene` | `str` | Biological anchor for ontology mapping. |
+| `variant` | `list[str]` | Supports multiple polymorphisms. |
+| `disease` | `str` | Core clinical entity. |
+| `relation_type` | `str` | Semantic class (e.g., variant→gene, gene→disease). |
+| `source_text` | `str` | Preserves textual evidence for auditability. |
+
+---
+
+### 📊 3. Topic Model Outputs
+
+| File | Key Fields | Purpose |
+|------|-------------|----------|
+| `topic_model_tfidf.csv` | `text_id`, `topic_id`, `top_keywords` | Interpretable clusters via TF-IDF + KMeans. |
+| `topic_model_bertopic.csv` | `text_id`, `topic_id`, `topic_prob`, `representative_terms` | Semantic clusters using Sentence-BERT embeddings. |
+
+---
+
+### 🧠 4. Why This Schema Matters
+
+Bridges **unstructured text** and **structured data**.  
+
+Enables fast triage: gene–disease mining, variant co-occurrence, topic grouping.  
+
+Ensures **reproducibility & transparency** — every record links back to its source sentence.  
+
+Ready for **knowledge graphs**, **annotation tools**, and **dashboards**.
+
+---
 
