@@ -178,6 +178,40 @@ Ensures **reproducibility & transparency** — every record links back to its so
 
 Below are representative visualizations of the topic clustering results.
 
+---
+
+## 📄 Sample JSON Output Preview
+
+```json
+[
+  {
+    "text_id": "T0000",
+    "variant": "",
+    "gene": "AD",
+    "phenotype": "Alzheimer",
+    "relation": "associated with",
+    "evidence_span": "netic landscape of Alzheimer's disease (AD). The identified and/or confirmed 19 single-nucleotide polymorphisms (SNPs) a"
+  },
+  {
+    "text_id": "T0000",
+    "variant": "",
+    "gene": "DNA",
+    "phenotype": "Alzheimer",
+    "relation": "associated with",
+    "evidence_span": "iated with AD are located on non-coding DNA regions, and their functional impacts on AD are as yet poorly understood. We"
+  },
+  {
+    "text_id": "T0000",
+    "variant": "",
+    "gene": "IGAP",
+    "phenotype": "Alzheimer",
+    "relation": "associated with",
+    "evidence_span": "tional Genomics of Alzheimer's Project (IGAP) is a consortium for characterizing the genetic landscape of Alzheimer's di"
+  }
+]
+```
+---
+
 ### 🧩 TF-IDF + KMeans Topic Clusters
 ![TF-IDF + KMeans Topic Clusters](Kmeans.png)
 *Scatter plot of document embeddings reduced via PCA and clustered by KMeans.  
