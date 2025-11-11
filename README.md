@@ -141,6 +141,7 @@ Structured triples for downstream processing or knowledge-graph ingestion.
   "relation_type": "gene–disease association",
   "source_text": "Variants rs429358 and rs7412 define APOE isoforms associated with AD."
 }
+```
 | Field | Type | Why It Matters |
 |--------|------|----------------|
 | `relation_id` | `int` | Stable handle to deduplicate/link relations. |
