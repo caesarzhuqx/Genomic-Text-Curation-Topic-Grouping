@@ -170,7 +170,5 @@ Enables fast triage: gene–disease mining, variant co-occurrence, topic groupin
 
 Ensures **reproducibility & transparency** — every record links back to its source sentence.  
 
-Ready for **knowledge graphs**, **annotation tools**, and **dashboards**.
-
 ---
 
