@@ -109,7 +109,7 @@ Both pipelines can be reproduced by running:
 ```bash
 python scripts/run_extraction.py
 python scripts/run_topic_modeling.py
-
+```
 ---
 
 ## 🧾 Curation Schema (Fields and Why They Matter)
