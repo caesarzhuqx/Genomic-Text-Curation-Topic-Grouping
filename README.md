@@ -7,19 +7,38 @@ Why this project?
 Small teams often need a quick, reproducible way to structure small corpora without heavy infrastructure.
 This repo provides a practical baseline you can run in minutes.
 
-.
-├── data/
-│   └── text.csv                         # input: one column named `text` (20–100 rows)
-│
-├── genomic_text_curation.ipynb          # main notebook (entity extraction + relations + topics + plots)
-│
-├── extracted_entities_full.csv          # extracted entities (variants, genes, diseases)
-├── curated_results.json                 # variant–gene–disease relation triples
-├── topic_model_tfidf.csv                # TF-IDF + KMeans topic assignments
-├── topic_model_bertopic.csv             # BERTopic topic assignments (optional)
-│
-├── images/
-│   ├── kmeans_topics.png                # PCA projection of TF-IDF + KMeans clusters
-│   └── bertopic_topics.png              # PCA projection of BERTopic clusters
-│
-└── README.md
+⚙️ Setup & Run
+1️⃣ Install dependencies
+pip install pandas scikit-learn matplotlib seaborn
+pip install sentence-transformers bertopic
+
+
+You may optionally add scispacy for biomedical entity models.
+
+2️⃣ Input format
+
+data/text.csv
+
+text
+"The APOE ε4 allele increases the risk of Alzheimer’s disease."
+"Variants rs429358 and rs7412 define APOE isoforms associated with AD."
+...
+
+
+Each row is one abstract or text snippet.
+
+3️⃣ Run notebook
+
+Open genomic_text_curation.ipynb and execute all cells.
+
+Outputs will appear as:
+
+extracted_entities_full.csv
+
+curated_results.json
+
+topic_model_tfidf.csv
+
+topic_model_bertopic.csv
+
+plots in images/
