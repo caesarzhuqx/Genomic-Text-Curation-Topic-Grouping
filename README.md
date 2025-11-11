@@ -15,3 +15,31 @@ This repo provides a practical baseline you can run in minutes.
 ```bash
 pip install pandas scikit-learn matplotlib seaborn
 pip install sentence-transformers bertopic
+💡 Optional:
+Add scispacy for biomedical entity models (e.g. pip install scispacy).
+
+🧩 Step 2. Input format
+Create data/text.csv with one column named text.
+
+csv
+Copy code
+text
+"The APOE ε4 allele increases the risk of Alzheimer’s disease."
+"Variants rs429358 and rs7412 define APOE isoforms associated with AD."
+Each row represents one abstract or text snippet.
+
+🧩 Step 3. Run notebook
+Open genomic_text_curation.ipynb in Jupyter or Google Colab,
+then execute all cells sequentially.
+
+Outputs will be generated as:
+
+extracted_entities_full.csv
+
+curated_results.json
+
+topic_model_tfidf.csv
+
+topic_model_bertopic.csv
+
+plots stored in images/
