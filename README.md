@@ -172,3 +172,22 @@ Ensures **reproducibility & transparency** — every record links back to its so
 
 ---
 
+---
+
+## 📊 5. Results & Visualization
+
+Below are representative visualizations of the topic clustering results.
+
+### 🧩 TF-IDF + KMeans Topic Clusters
+![TF-IDF + KMeans Topic Clusters](Kmeans.png)
+*Scatter plot of document embeddings reduced via PCA and clustered by KMeans.  
+Each color represents a distinct topic derived from TF-IDF features.*
+
+---
+
+### 🤖 BERTopic Clusters
+![BERTopic Clusters](BERTopic.png)
+*BERTopic visualization (PCA fallback).  
+Sentences are embedded with Sentence-BERT and grouped into coherent semantic topics.*
+
+---
