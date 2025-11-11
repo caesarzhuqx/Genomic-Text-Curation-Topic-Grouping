@@ -225,3 +225,53 @@ Each color represents a distinct topic derived from TF-IDF features.*
 Sentences are embedded with Sentence-BERT and grouped into coherent semantic topics.*
 
 ---
+
+---
+
+## 🧩 Discussion of Limitations & Next Steps
+
+### ⚠️ Limitations
+
+1. **Entity extraction relies on surface patterns.**  
+   Current extraction depends on simple regex and capitalization rules (e.g., `rs\d+`, uppercase gene names).  
+   This misses implicit mentions (e.g., “ApoE4 variant”) and can falsely detect non-biological entities.
+
+2. **Relation extraction is pattern-based.**  
+   Relation phrases (e.g., *associated with*, *linked to*) are rule-defined.  
+   Complex syntax or negations (“not associated with”) are not handled robustly.
+
+3. **No ontology-level normalization.**  
+   Entities such as “APOE ε4”, “ApoE4”, and “APOE4” are treated separately, lacking mapping to standard vocabularies (HGNC, MeSH, ClinVar).
+
+4. **Topic modeling sensitivity.**  
+   TF-IDF + KMeans and BERTopic can produce noisy clusters on small corpora or unbalanced text segments.
+
+5. **Lack of evaluation & expert validation.**  
+   No benchmarked accuracy or domain expert feedback is currently integrated.
+
+---
+
+### 🚀 Next Steps
+
+1. **Integrate biomedical NER models.**  
+   Replace rule-based extraction with BioBERT, SciSpacy, or PubMedBERT for entity recognition.
+
+2. **Enhance relation extraction.**  
+   Introduce transformer-based classification (e.g., BioBERT relation models) to detect negation and syntactic dependencies.
+
+3. **Entity normalization pipeline.**  
+   Map extracted entities to HGNC, MeSH, or dbSNP identifiers for consistent cross-document linking.
+
+4. **Improve topic modeling robustness.**  
+   Use contextual embeddings (Sentence-BERT + UMAP + HDBSCAN) and evaluate with topic coherence metrics.
+
+5. **Add evaluation & human-in-the-loop review.**  
+   Build a lightweight annotation interface for expert curation and quality auditing.
+
+6. **Integrate with downstream systems.**  
+   Feed curated results into biomedical knowledge graphs (e.g., Neo4j) or semantic search pipelines.
+
+---
+
+*These steps aim to evolve the current pipeline from a lightweight prototype into a scalable, ontology-aware biomedical text curation system.*
+
