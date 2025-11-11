@@ -113,64 +113,57 @@ python scripts/run_topic_modeling.py
 
 ## 🧾 Curation Schema (Fields and Why They Matter)
 
-The curation pipeline produces two main structured outputs — a **complete entity table** and a **curated relation schema** — designed for interpretable, reproducible biomedical text curation.
+> 🧩 This section describes the structure of curated outputs and why each field is important for downstream interpretation.
 
----
-
-### 🧬 1. `extracted_entities_full.csv`
-
+🧬 1. extracted_entities_full.csv
 This file contains one row per processed sentence, with extracted entities and contextual information.
 
-| Field | Type | Example | Why It Matters |
-|--------|------|----------|----------------|
-| `text_id` | `int` | `12` | Unique identifier for tracking and reference across datasets. |
-| `text` | `str` | `"The APOE ε4 allele increases the risk of Alzheimer’s disease."` | Retains the full input context for manual verification. |
-| `gene` | `str` | `APOE` | Links extracted variants to known genetic markers. |
-| `variant` | `str` | `rs429358` | Enables variant-level analysis in genomic studies. |
-| `disease` | `str` | `Alzheimer’s disease` | Connects genomic findings to clinical conditions. |
-| `relation_context` | `str` | `"APOE ε4 increases the risk of AD"` | Captures relational phrasing for reasoning and curation. |
+Field	Type	Example	Why It Matters
+text_id	int	12	Unique identifier for cross-referencing.
+text	str	"The APOE ε4 allele increases the risk of Alzheimer’s disease."	Retains original context for verification.
+gene	str	APOE	Links extracted variants to known genetic markers.
+variant	str	rs429358	Enables variant-level genomic analysis.
+disease	str	Alzheimer’s disease	Connects genetic entities to clinical outcomes.
+relation_context	str	"APOE ε4 increases the risk of AD"	Captures linguistic evidence of relationships.
 
----
+🧩 2. curated_results.json
+Encodes entity–relation triples extracted from text, designed for integration with knowledge graphs or downstream reasoning tools.
 
-### 🧩 2. `curated_results.json`
-
-This file encodes extracted relations in a structured format suitable for downstream processing or knowledge graph ingestion.
-
-**Example:**
-
-```json
+Example:
 {
-  "relation_id": 5,
-  "gene": "APOE",
-  "variant": ["rs429358", "rs7412"],
-  "disease": "Alzheimer’s disease",
-  "relation_type": "gene–disease association",
-  "source_text": "Variants rs429358 and rs7412 define APOE isoforms associated with AD."
+"relation_id": 5,
+"gene": "APOE",
+"variant": ["rs429358", "rs7412"],
+"disease": "Alzheimer’s disease",
+"relation_type": "gene–disease association",
+"source_text": "Variants rs429358 and rs7412 define APOE isoforms associated with AD."
 }
+
 Field	Type	Why It Matters
-relation_id	int	Enables linking relations across outputs.
-gene	str	Serves as the biological anchor for relation mapping.
-variant	list[str]	Captures multiple related polymorphisms.
-disease	str	Target entity for most biomedical association tasks.
-relation_type	str	Describes the inferred semantic relationship (e.g., variant–gene, gene–disease).
-source_text	str	Preserves the textual evidence for transparent review.
+relation_id	int	Enables linking across outputs.
+gene	str	Biological anchor for mapping to ontology.
+variant	list[str]	Captures multiple polymorphisms.
+disease	str	Target phenotype entity.
+relation_type	str	Describes the inferred semantic relation.
+source_text	str	Preserves textual evidence for human validation.
 
 📊 3. Topic Model Outputs
+Summarizes clustering results from topic modeling pipelines.
+
 File	Key Fields	Purpose
-topic_model_tfidf.csv	text_id, topic_id, top_keywords	Provides interpretable topic clusters using TF-IDF + KMeans.
-topic_model_bertopic.csv	text_id, topic_id, topic_prob, representative_terms	Encodes semantic clusters derived from Sentence-BERT embeddings.
+topic_model_tfidf.csv	text_id, topic_id, top_keywords	Interpretable topic clusters from TF-IDF + KMeans.
+topic_model_bertopic.csv	text_id, topic_id, topic_prob, representative_terms	Semantic clusters derived from Sentence-BERT embeddings.
 
 🧠 Why This Schema Matters
+
 Bridges unstructured biomedical text with structured, machine-readable data.
 
-Enables downstream analytics such as:
+Enables downstream analytics like gene–disease association mining or variant co-occurrence detection.
 
-Gene–disease association mining
+Ensures transparency — every record links back to its source text.
 
-Variant co-occurrence detection
+Ready for integration into knowledge graphs, annotation dashboards, or visualization pipelines.
 
-Topic-based literature triage
-
-Promotes reproducibility and transparency — every record links back to its textual source.
-
-Designed to integrate easily with knowledge graphs, annotation tools, and data dashboards.
+yaml
+Copy code
+---
