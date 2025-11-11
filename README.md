@@ -111,59 +111,51 @@ python scripts/run_extraction.py
 python scripts/run_topic_modeling.py
 ****
 
-## 🧾 Curation Schema (Fields and Why They Matter)
+🧬 1) extracted_entities_full.csv
+One row per input sentence/segment with extracted entities and minimal context.
 
-> 🧩 This section describes the structure of curated outputs and why each field is important for downstream interpretation.
+Field             Type        Example                                                    Why it matters
+----------------  ----------  ---------------------------------------------------------  ----------------------------------------------
+text_id           int         12                                                        Unique id for cross-referencing.
+text              str         "The APOE ε4 allele increases the risk of AD."            Keeps original evidence for review.
+gene              str         APOE                                                      Anchors biological entity for ontology mapping.
+variant           str         rs429358                                                  Enables variant-level analyses.
+disease           str         Alzheimer’s disease                                       Links genetics to clinical phenotype.
+relation_context  str         "APOE ε4 increases the risk of AD"                       Captures phrasing for quick curator judgment.
 
-🧬 1. extracted_entities_full.csv
-This file contains one row per processed sentence, with extracted entities and contextual information.
 
-Field	Type	Example	Why It Matters
-text_id	int	12	Unique identifier for cross-referencing.
-text	str	"The APOE ε4 allele increases the risk of Alzheimer’s disease."	Retains original context for verification.
-gene	str	APOE	Links extracted variants to known genetic markers.
-variant	str	rs429358	Enables variant-level genomic analysis.
-disease	str	Alzheimer’s disease	Connects genetic entities to clinical outcomes.
-relation_context	str	"APOE ε4 increases the risk of AD"	Captures linguistic evidence of relationships.
-
-🧩 2. curated_results.json
-Encodes entity–relation triples extracted from text, designed for integration with knowledge graphs or downstream reasoning tools.
+🧩 2) curated_results.json
+Structured triples for downstream processing or knowledge-graph ingestion.
 
 Example:
-{
-"relation_id": 5,
-"gene": "APOE",
-"variant": ["rs429358", "rs7412"],
-"disease": "Alzheimer’s disease",
-"relation_type": "gene–disease association",
-"source_text": "Variants rs429358 and rs7412 define APOE isoforms associated with AD."
+{ "relation_id": 5,
+  "gene": "APOE",
+  "variant": ["rs429358", "rs7412"],
+  "disease": "Alzheimer’s disease",
+  "relation_type": "gene–disease association",
+  "source_text": "Variants rs429358 and rs7412 define APOE isoforms associated with AD."
 }
 
-Field	Type	Why It Matters
-relation_id	int	Enables linking across outputs.
-gene	str	Biological anchor for mapping to ontology.
-variant	list[str]	Captures multiple polymorphisms.
-disease	str	Target phenotype entity.
-relation_type	str	Describes the inferred semantic relation.
-source_text	str	Preserves textual evidence for human validation.
+Field          Type        Why it matters
+-------------  ----------  -------------------------------------------------------------------------
+relation_id    int         Stable handle to deduplicate and link relations across artifacts.
+gene           str         Biological anchor; easy to align to Ensembl/NCBI ids.
+variant        list[str]   Supports multiple polymorphisms mentioned together.
+disease        str         Target clinical entity for most curation tasks.
+relation_type  str         Describes semantic class (e.g., variant→gene, gene→disease).
+source_text    str         Preserves the exact textual evidence for transparent verification.
 
-📊 3. Topic Model Outputs
-Summarizes clustering results from topic modeling pipelines.
 
-File	Key Fields	Purpose
-topic_model_tfidf.csv	text_id, topic_id, top_keywords	Interpretable topic clusters from TF-IDF + KMeans.
-topic_model_bertopic.csv	text_id, topic_id, topic_prob, representative_terms	Semantic clusters derived from Sentence-BERT embeddings.
+📊 3) Topic Model Outputs
+File                     Key fields                                   Purpose
+-----------------------  -------------------------------------------  -----------------------------------------------
+topic_model_tfidf.csv    text_id, topic_id, top_keywords              Interpretable clusters via TF-IDF + KMeans.
+topic_model_bertopic.csv text_id, topic_id, topic_prob, repr_terms    Semantic clusters from Sentence-BERT embeddings.
 
-🧠 Why This Schema Matters
 
-Bridges unstructured biomedical text with structured, machine-readable data.
+🧠 Why this schema matters
+- Bridges unstructured biomedical text with structured, machine-readable data.
+- Enables fast triage: gene–disease association mining, variant co-occurrence checks, topic-based review.
+- Ensures reproducibility and transparency: every record links back to its source sentence.
+- Ready to plug into knowledge graphs, annotation tools, and dashboards.
 
-Enables downstream analytics like gene–disease association mining or variant co-occurrence detection.
-
-Ensures transparency — every record links back to its source text.
-
-Ready for integration into knowledge graphs, annotation dashboards, or visualization pipelines.
-
-yaml
-Copy code
----
